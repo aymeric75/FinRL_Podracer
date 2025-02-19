@@ -5,6 +5,11 @@ import numpy as np
 
 class ActorPPO(nn.Module):
     def __init__(self, mid_dim, state_dim, action_dim):
+
+        print("state_dim : {}".format(str(state_dim))) # 47
+        print("action_dim : {}".format(str(action_dim))) # 11
+
+
         super().__init__()
         self.net = nn.Sequential(nn.Linear(state_dim, mid_dim), nn.ReLU(),
                                  nn.Linear(mid_dim, mid_dim // 2), nn.ReLU(),
@@ -19,7 +24,22 @@ class ActorPPO(nn.Module):
         return self.net(state).tanh()  # action.tanh()
 
     def get_action(self, state):
-        a_avg = self.net(state)
+        print("NET SUMMARY")
+
+
+        # Sequential(
+        # (0): Linear(in_features=47, out_features=512, bias=True)
+        # (1): ReLU()
+        # (2): Linear(in_features=512, out_features=256, bias=True)
+        # (3): ReLU()
+        # (4): Linear(in_features=256, out_features=11, bias=True)
+        # )
+
+        print(self.net)
+        print("statestate")
+        print(state.shape) # torch.Size([1, 11, 12])
+        exit()
+        a_avg = self.net(state) # RuntimeError: mat1 and mat2 shapes cannot be multiplied (11x12 and 47x512)
         a_std = self.a_logstd.exp()
 
         noise = torch.randn_like(a_avg)

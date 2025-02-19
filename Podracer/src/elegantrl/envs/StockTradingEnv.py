@@ -697,6 +697,9 @@ def evaluate_models_in_directory(dir_path=None):
     model_names = [name for name in os.listdir(dir_path) if name[:6] == 'actor_']
     model_names.sort()
 
+    print("WAS FUCKING HERE ")
+    exit()
+
     env_func = StockTradingEnv
     env_args = {
         'env_num': 1,

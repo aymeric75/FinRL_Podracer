@@ -63,7 +63,15 @@ class StockEnvNAS89(gym.Env, ABC):
         self.env_name = 'StockNAS89'
         # self.state_dim = 1 + 2 + 2 * stock_dim + self.tech_ary.shape[1]
         # # amount + (turbulence, turbulence_bool) + (price, stock) * stock_dim + tech_dim
-        self.state_dim = 1 + 2 + 3 * stock_dim + self.tech_ary.shape[1]
+        self.state_dim = 12 #1 + 2 + 3 * stock_dim + self.tech_ary.shape[1]
+        print("stock_dim ")
+        print(stock_dim)
+        print(" self.tech_ary.shape[1]")
+        print(self.tech_ary.shape[1])
+        print("JJJJJJJJJHHHHHHHHHHHHHHHHH")
+        print(self.state_dim)
+
+
         # amount + (turbulence, turbulence_bool) + (price, stock) * stock_dim + tech_dim
         self.stocks_cd = None
         self.action_dim = stock_dim
@@ -132,10 +140,11 @@ class StockEnvNAS89(gym.Env, ABC):
     def get_state(self, price):
         amount = np.array(max(self.amount, 1e4) * (2 ** -12), dtype=np.float32)
         scale = np.array(2 ** -6, dtype=np.float32)
+        amount = np.full((price * scale).shape, amount)
 
         print("amount.shape")
-        print(amount.shape)
-        print("self.turbulence_ary[self.day].shape")
+        print(amount.shape)         # 11
+        print("self.turbulence_ary[self.day].shape") # 
         print(self.turbulence_ary[self.day].shape)
         print("self.turbulence_bool[self.day]")
         print(self.turbulence_bool[self.day])
@@ -145,15 +154,26 @@ class StockEnvNAS89(gym.Env, ABC):
         print(self.stocks_cd.shape)
         print("self.tech_ary[self.day].shape")
         print(self.tech_ary[self.day].shape)
+
+        # 11 * 
+
+        
+
+        thestack = np.hstack([
+            amount.reshape(-1, 1),  # Reshape to column vector
+            self.turbulence_ary[self.day].reshape(-1, 1),
+            self.turbulence_bool[self.day].reshape(-1, 1),
+            (price * scale).reshape(-1, 1),
+            self.stocks_cd.reshape(-1, 1),
+            self.tech_ary[self.day]  # This is already (11,7), so no reshape needed
+        ])
+
+        print("thestack.shape")
+        print(thestack.shape) # (11, 12)
         exit()
-        return np.hstack((amount,
-                          self.turbulence_ary[self.day],
-                          self.turbulence_bool[self.day],
-                          price * scale,
-                          self.stocks * scale,
-                          self.stocks_cd,
-                          self.tech_ary[self.day],
-                          ))  # state.astype(np.float32)
+
+        return thestack
+
 
     def load_data(self, cwd='./envs/finrl', ticker_list=None, tech_indicator_list=None,
                   start_date='2016-01-03', end_date='2021-05-27', scrap=False, timeframe="minute"):
@@ -370,7 +390,12 @@ class StockEnvNAS89(gym.Env, ABC):
             x = self.fill_nan_with_next_value(x)  # fill_nan_with_next_value   SE
             turb_ary[:, j] = x
 
-
+        print("price_ary.shape")
+        print(price_ary.shape)
+        print()
+        print("tech_ary.shape")
+        print(tech_ary.shape)
+        #exit()
 
         return price_ary, tech_ary, turb_ary
 
@@ -422,7 +447,7 @@ class StockEnvNAS89(gym.Env, ABC):
             # with open("PriceData_"+str_tickers+"_"+str(start_date)+"_"+str(end_date)+".pkl", 'wb') as file:
             #     pickle.dump(df, file)
 
-            raw_df = pd.read_pickle('/home/random/FinRL_Podracer/FinRLPodracer/finrl/Merged_PriceData.pkl')
+            raw_df = pd.read_pickle('/workspace/FinRL_Podracer/FinRLPodracer/finrl/Merged_PriceData.pkl')
             
         return raw_df
 
