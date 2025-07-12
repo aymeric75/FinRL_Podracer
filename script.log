@@ -1,0 +1,5 @@
+2025-05-10 14:30:32,272 - ERROR - Exception occurred during training:
+Traceback (most recent call last):
+  File "/workspace/FinRL_Podracer/script.py", line 136, in main
+    turbulence_ary = pickle.load(f)
+EOFError: Ran out of input

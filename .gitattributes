@@ -1,0 +1,9 @@
+*.pkl filter=lfs diff=lfs merge=lfs -text
+ElegantRL/.git/objects/pack/pack-a9dae613f1950da54926d4caae7f8422a64b91ff.pack filter=lfs diff=lfs merge=lfs -text
+data/tech_ary_SHORT.pkl filter=lfs diff=lfs merge=lfs -text
+data/price_ary.pkl filter=lfs diff=lfs merge=lfs -text
+data/price_ary_downsampled.pkl filter=lfs diff=lfs merge=lfs -text
+data/tech_ary_downsampled.pkl filter=lfs diff=lfs merge=lfs -text
+data/tech_ary.pkl filter=lfs diff=lfs merge=lfs -text
+data/turb_ary.pkl filter=lfs diff=lfs merge=lfs -text
+data/df_tic_only.pkl filter=lfs diff=lfs merge=lfs -text
