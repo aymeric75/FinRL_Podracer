@@ -1,0 +1,60 @@
+
+
+call save_training_curve_jpg
+
+	
+which call draw_learning_curve (self.recorder)
+
+	
+	self.recorder holds for X (Evaluation) steps (the first value is of shape (1, 7), the 2nd will be (2, 7) etc.):
+
+			7 values:
+
+				steps: 512
+
+				avg rewards
+
+		
+	self.recorder is updated once WHEN evaluate_and_save(actor, steps, exp_r) is called
+
+
+			with "steps" taking the value of self.total_step
+
+					with self.total_step updated by "steps" 
+
+
+
+	
+	=======> 
+			
+		evaluate_and_save is called ANY TIME Evaluator received data from Learner
+
+						(it receives horizon_len * num_workers steps)
+
+
+			BUT REALLY 'evaluates' (ie print Something on the graph)
+
+
+				AFTER the "total_step" HAS REACH  "recorder_step"
+
+				AND (for the next "turns") AFTER the "total_step" is "every" eval_per_step 
+
+
+			WHEN TEST PASSED
+
+				get_cumulative_rewards_and_step
+
+					=====> THIS RESET THE ENV AND COMPUTE AVERAGE CUM REWARD 
+
+						OVER MAX_STEP eval_times TIMES !!!!!!!!!!!!!!!!!
+
+
+						(THE RESET STEP, "GOES BACK" to the begining of the 
+
+							price_ary, IE put self.day to 0 !!!)
+		
+				
+
+
+
+	

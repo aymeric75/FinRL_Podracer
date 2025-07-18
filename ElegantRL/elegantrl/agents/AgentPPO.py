@@ -116,7 +116,10 @@ class AgentPPO(AgentBase):
 
         state = self.last_state  # shape == (num_envs, state_dim) for a vectorized env.
 
-
+        print("TH LMA SSASAA ISISISIS")
+        print(state)
+        print("self.last_stateself.last_stateself.last_state")
+        print(self.last_state)
         #print("horizon_len is {}".format(horizon_len)) # 1024
         convert = self.act.convert_action_for_env
 
@@ -151,6 +154,8 @@ class AgentPPO(AgentBase):
         return states, actions, logprobs, rewards, undones, unmasks
 
     def explore_action(self, state: TEN) -> tuple[TEN, TEN]:
+        print("STATE oulallalalla")
+        print(state)
         actions, logprobs = self.act.get_action(state)
         return actions, logprobs
 
@@ -404,9 +409,10 @@ class ActorPPO(th.nn.Module):
 
     def get_action(self, state: TEN) -> tuple[TEN, TEN]:  # for exploration
 
-        # print("STATEEEE ")
-        # print(state)
-        # exit()
+        print("STATEEEE eeeeeeeee EEEEEEEEEEEEEE")
+        print(state.shape) # (4, 721)
+        exit()
+
         state = self.state_norm(state)
         action_avg = self.net(state)
         action_std = self.action_std_log.exp()
@@ -443,6 +449,10 @@ class ActorDiscretePPO(ActorPPO):
         return a_prob.argmax(dim=1)  # get the indices of discrete action
 
     def get_action(self, state: TEN) -> (TEN, TEN):
+
+        print(state)
+        print("ON EST LA LA PUTAIN !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        exit()
         state = self.state_norm(state)
         a_prob = self.soft_max(self.net(state))
         a_dist = self.ActionDist(a_prob)

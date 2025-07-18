@@ -106,8 +106,6 @@ def main():
     try:
 
 
-
-
         # # Save the new DataFrame with unique tickers
         # with open('data/df_tic_only_unique.pkl', 'wb') as f:
         #     pickle.dump(unique_tics, f)
@@ -150,9 +148,20 @@ def main():
 
         stock_dim = price_ary.shape[1]
 
-        print(price_ary.shape)
-        print(tech_ary.shape)
-        print(turbulence_ary.shape)
+        print(type(price_ary))
+        print(type(tech_ary))
+        print(type(turbulence_ary))
+
+
+
+        print(price_ary)
+
+        print(type(price_ary))
+        print(getattr(price_ary, 'dtype', 'No dtype'))
+        
+
+
+
         gc.collect()
         process = psutil.Process(os.getpid())
         mem_info = process.memory_info()
@@ -180,14 +189,14 @@ def main():
         # print(len(tech_ary)) # 1954080
 
         # GROUND TRUTH PARAMETERS
-        worker_num = 2
+        worker_num = 2 #2   WORKER_NUM  AND 
         num_envs = 4
-        batch_size = 1024
-        buffer_size = 4096
-        horizon_len = 1024
-        eval_per_step = 1024
-        max_step = 1024
-        repeat_times = 8
+        batch_size = 128 #1024
+        buffer_size = 256 #4096
+        horizon_len = 128 #128 #
+        eval_per_step = 128 #1024
+        max_step =  128 #1024
+        repeat_times = 1
 
         # ###########  PARAMETER GENERAL DEFINITION
         # worker_num = 2
@@ -223,7 +232,7 @@ def main():
             "learning_rate": 2**-14,
             "net_dim": 2**8,
             "batch_size": batch_size, #2**6, #2**10,
-            "eval_gap": 2**8,
+            "eval_gap": 2**8, #8,
             "eval_times1": 2**0,
             "eval_times2": 2**1,
             "break_step": 2**12, #int(25e6),

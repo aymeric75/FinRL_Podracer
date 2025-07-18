@@ -48,7 +48,8 @@ class AgentBase:
         self.explore_noise_std = getattr(args, 'explore_noise_std', 0.05)  # standard deviation of exploration noise
         self.last_state: Optional[TEN] = None  # last state of the trajectory. shape == (num_envs, state_dim)
 
-        
+        print("self.last_state  IIIINIININININIIIITIITITITITTT")
+        print(self.last_state)
 
 
         self.device = th.device(f"cuda:{gpu_id}" if (th.cuda.is_available() and (gpu_id >= 0)) else "cpu")
@@ -102,6 +103,8 @@ class AgentBase:
         terminals = th.zeros(horizon_len, dtype=th.bool).to(self.device)
         truncates = th.zeros(horizon_len, dtype=th.bool).to(self.device)
 
+        print("self.last_state ONE EN 1")
+        print(self.last_state)
         state = self.last_state
         for t in range(horizon_len):
             action = self.explore_action(state)[0]
@@ -120,6 +123,9 @@ class AgentBase:
             rewards[t] = reward
             terminals[t] = terminal
             truncates[t] = truncate
+
+        print("self.last_state ONE EN 222")
+        print(self.last_state)
 
         self.last_state = state  # state.shape == (1, state_dim) for a single env.
         '''add dim1=1 below for workers buffer_items concat'''
@@ -154,6 +160,9 @@ class AgentBase:
         terminals = th.zeros((horizon_len, self.num_envs), dtype=th.bool).to(self.device)
         truncates = th.zeros((horizon_len, self.num_envs), dtype=th.bool).to(self.device)
 
+
+        print("LA PUTAINJ DTAME RE 1   ")
+        print(self.last_state)
         state = self.last_state  # last_state.shape == (num_envs, state_dim)
         for t in range(horizon_len):
             action = self.explore_action(state)
@@ -170,6 +179,10 @@ class AgentBase:
             truncates[t] = truncate
 
         self.last_state = state
+        print("LA PUTAINJ DTAME RE 2   ")
+        print(self.last_state)
+
+
         rewards *= self.reward_scale
         undones = th.logical_not(terminals)
         unmasks = th.logical_not(truncates)

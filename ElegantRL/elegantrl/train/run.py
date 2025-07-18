@@ -322,8 +322,8 @@ class Learner(Process):
                 last_state = last_state[0]
                 agent.last_state[buf_i:buf_j] = last_state.to(agent.device)
 
-            print("buffer_tensorbuffer_tensor")
-            print(buffer_tensor.shape)
+            # print("buffer_tensorbuffer_tensor")
+            # print(buffer_tensor.shape)
 
             del buffer_items, last_state
 
@@ -359,10 +359,7 @@ class Learner(Process):
                 buffer[:] = buffer_items_tensor
 
             
-            print("bufferbuffer")
-            print(len(buffer))
-            print(buffer[0].shape)
-
+ 
 
             '''Learner update network using training data'''
             th.set_grad_enabled(True)
@@ -526,8 +523,10 @@ class EvaluatorProc(Process):
         while if_train:
             '''Evaluator receive training log from Learner'''
             actor, steps, exp_r, logging_tuple = self.pipe0.recv()
-            #print("7777777777777777777   Evaluator received training logs")
-
+            # steps IS ALWAYS batch_size ????
+            print("7777777777777777777   Evaluator received training logs")
+            print("stepsS")
+            print(steps)
             '''Evaluator evaluate the actor and save the training log'''
             if actor is None:
                 evaluator.total_step += steps  # update total_step but don't update recorder

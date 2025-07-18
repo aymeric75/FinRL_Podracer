@@ -56,10 +56,12 @@ class Evaluator:
     def evaluate_and_save(self, actor: th.nn, steps: int, exp_r: float, logging_tuple: tuple):
 
 
-        #print("8888888888888888888888888888")
+        # print("8888888888888888888888888888")
         # print(self.total_step) # 64
         # print(steps) # 64
-        # print(self.recorder_step) # 0 (^^)
+        
+        
+        #print(self.recorder_step) # 0 (^^)
         # print(self.eval_step_counter) # -64
         # print(self.eval_per_step) # 64
 
@@ -271,12 +273,19 @@ def get_cumulative_rewards_and_step_from_vec_env(env, actor) -> List[Tuple[float
 def draw_learning_curve(recorder: np.ndarray = None,
                         fig_title: str = 'learning_curve',
                         save_path: str = 'learning_curve.jpg'):
+
+
+    #### 
+
     steps = recorder[:, 0]  # x-axis is training steps
     r_avg = recorder[:, 1]
     r_std = recorder[:, 2]
     r_exp = recorder[:, 3]
     obj_c = recorder[:, 4]
     obj_a = recorder[:, 5]
+
+
+
 
     '''plot subplots'''
     import matplotlib as mpl
